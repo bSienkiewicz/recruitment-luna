@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useSocketConnection } from "./hooks/useSocketConnection";
-import useTemperatureStore from "./store/temperatures";
-import ModuleCard from "./components/ModuleCard";
-import { api } from "./services/api";
-import Modal from "./components/Modal";
-import { Module, AddModuleModalProps } from "./types";
+import { useSocketConnection } from "../hooks/useSocketConnection";
+import useTemperatureStore from "../store/temperatures";
+import ModuleCard from "../components/ModuleCard";
+import { api } from "../services/api";
+import Modal from "../components/Modal";
+import { Module, AddModuleModalProps } from "../types";
 
 const AddModuleModal = ({
   showModal,

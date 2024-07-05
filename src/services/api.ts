@@ -32,6 +32,20 @@ export const api = {
     return response.json();
   },
 
+  async postModule(module: Module): Promise<Module> {
+    const response = await fetch(`${API_BASE_URL}/modules`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(module),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to create module");
+    }
+    return response.json();
+  },
+
   async getModuleHistory(
     id: string,
     start: string,
