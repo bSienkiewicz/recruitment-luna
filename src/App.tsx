@@ -113,7 +113,7 @@ function App() {
   }, [fetchModules]);
 
   return (
-    <div className="flex-1 w-full h-full overflow-auto pt-10 relative">
+    <div className="overflow-auto pt-10 relative">
       <AddModuleModal
         showModal={showModal}
         handleShowModal={setShowModal}

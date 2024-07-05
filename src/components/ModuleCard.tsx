@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
 
 interface ModuleCardProps {
   module: {
@@ -30,6 +31,10 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
       ? calculateWidthPercentage(latestReading, module.targetTemperature)
       : 0; // Default to 50% if no reading
 
+  useEffect(() => {
+    console.log(module)
+  }, [module])
+
   return (
     <div className="flex flex-col items-center group">
       <a
@@ -49,11 +54,11 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
           </div>
         </div>
 
-        {module.description && module.description?.length > 0 && (
+        {/* {module.description && module.description?.length > 0 && (
           <p className="line-clamp-3 text-sm min-h-[60px]">
             {module.description}
           </p>
-        )}
+        )} */}
 
         <div className="grid grid-cols-2 justify-between items-center mt-4">
           <div className="text-sm flex items-center justify-center border border-gray_border rounded-full place-self-end text-neutral-400 col-start-2">

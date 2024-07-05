@@ -113,13 +113,12 @@ function App() {
   }, [fetchModules]);
 
   return (
-    <div className="flex-1 w-full h-full overflow-auto pt-10 relative">
+    <div className="overflow-auto">
       <AddModuleModal
         showModal={showModal}
         handleShowModal={setShowModal}
         postNewModule={postNewModule}
       />
-      <div className="container mx-auto flex-col px-5">
         <div className="flex justify-between w-full">
           <h1 className="text-3xl font-medium">Your modules</h1>
           <button
@@ -143,7 +142,6 @@ function App() {
           ))}
         </div>
       </div>
-    </div>
   );
 }
 
