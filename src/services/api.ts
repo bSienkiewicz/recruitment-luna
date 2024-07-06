@@ -1,14 +1,9 @@
+import toast from "react-hot-toast";
 import useAppDataStore from "../store/appData";
+import { Module } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export interface Module {
-  id: string;
-  name: string;
-  description: string;
-  available: boolean;
-  targetTemperature: number;
-}
 
 export const api = {
   async getAllModules(): Promise<Module[]> {
@@ -50,13 +45,27 @@ export const api = {
     id: string,
     start: string,
     stop: string,
-    mode: "hourly" | "daily"
+    mode: string = "hourly"
   ): Promise<any> {
     const response = await fetch(
       `${API_BASE_URL}/modules/${id}/history?start=${start}&stop=${stop}&mode=${mode}`
     );
     if (!response.ok) {
       throw new Error(`Failed to fetch history for module with id ${id}`);
+    }
+    return response.json();
+  },
+
+  async patchModule(module: Partial<Module>): Promise<Partial<Module>> {
+    const response = await fetch(`${API_BASE_URL}/modules/${module.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(module),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update module");
     }
     return response.json();
   },

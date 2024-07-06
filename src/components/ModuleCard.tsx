@@ -1,45 +1,25 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
+import { calculateTemperaturePosition, getSafeTemperatureRanges } from "../utils/temperatureUtils";
+import { Module } from "../types";
 
 interface ModuleCardProps {
-  module: {
-    name: string;
-    description: string;
-    available: boolean;
-    targetTemperature: number;
-    id: string;
-  };
+  module: Module;
   latestReading?: number;
 }
 
 const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
   const MODULE_BASE_URL = "/module/";
 
-  // calculate the width percentage of the temperature bar
-  const calculateWidthPercentage = (
-    current: number,
-    target: number
-  ): number => {
-    const minTemp = target - 10;
-    const maxTemp = target + 10;
-    const percentage = ((current - minTemp) / (maxTemp - minTemp)) * 100;
-    return Math.min(Math.max(percentage, 0), 100); // Clamp
-  };
-
-  const temperatureWidth =
-    latestReading !== undefined
-      ? calculateWidthPercentage(latestReading, module.targetTemperature)
-      : 0; // Default to 50% if no reading
-
-  useEffect(() => {
-    console.log(module)
-  }, [module])
+  const safeRanges = getSafeTemperatureRanges(module.targetTemperature);
+  const temperatureWidth = latestReading !== undefined
+    ? calculateTemperaturePosition(latestReading, safeRanges.min, safeRanges.max)
+    : 0;
 
   return (
     <div className="flex flex-col items-center group">
       <a
         href={`${MODULE_BASE_URL}${module.id}`}
-        className="relative rounded-xl bg-white p-8 px-4 pt-8 pb-4 border border-gray_border transition-all overflow-hidden w-full"
+        className="relative rounded-xl styled_black p-8 px-4 pt-8 pb-4 transition-all overflow-hidden w-full"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex gap-2 items-center">
@@ -61,9 +41,9 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
         )} */}
 
         <div className="grid grid-cols-2 justify-between items-center mt-4">
-          <div className="text-sm flex items-center justify-center border border-gray_border rounded-full place-self-end text-neutral-400 col-start-2">
+          <div className="text-sm flex items-center justify-center border border-lighter_dark rounded-full place-self-end text-neutral-400 col-start-2">
             {module.available && (
-              <span className="px-3 py-1 text-dark_green_main font-semibold border-r border-gray_border">
+              <span className="px-3 py-1 text-green_main font-semibold border-r border-lighter_dark">
                 {latestReading ? latestReading : "..."}°C
               </span>
             )}

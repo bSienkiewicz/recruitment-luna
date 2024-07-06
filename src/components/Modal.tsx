@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 interface ModalProps {
@@ -15,7 +14,7 @@ const Modal = ({ isShown, onClose, children }: ModalProps) => {
       className={`fixed top-0 left-0 w-full h-full bg-black/70 z-50 flex justify-center items-center`}
       onClick={onClose}
     >
-      <div className="bg-white rounded-md p-5 shadow-lg w-[800px] mx-5" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-dark rounded-md p-5 shadow-lg w-[800px] mx-5" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </div>,

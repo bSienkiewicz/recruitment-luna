@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "../services/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Module } from "../types";
+import Input from "./Input";
 
 const useModuleSearch = () => {
   const [modules, setModules] = useState<Module[]>([]);
@@ -43,8 +44,7 @@ const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputBlurred, setInputBlurred] = useState(false);
-  const { filteredModules, fetchModules, filterModules, setModules } =
-    useModuleSearch();
+  const { filteredModules, fetchModules, filterModules } = useModuleSearch();
 
   useEffect(() => {
     fetchModules();
@@ -63,19 +63,19 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative hidden md:flex">
       <div
-        className={`border border-gray_border rounded-full px-6 py-2 md:w-96 text-sm items-center cursor-text hidden sm:flex focus-within:bg-white transition-all`}
+        className={`border border-lighter_dark rounded-full px-6 py-2 text-sm items-center cursor-text hidden sm:flex focus-within:bg-black transition-all`}
         onClick={() => inputRef.current?.focus()}
       >
         <FontAwesomeIcon
           icon={["fas", "search"]}
           className="text-neutral-400 mr-4"
         />
-        <input
+        <Input
           type="text"
-          placeholder="Search for your modules..."
-          className="bg-transparent focus:outline-none flex-1"
+          placeholder="Search..."
+          className="bg-transparent focus:outline-none flex-1 !border-0"
           value={searchQuery}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
@@ -88,7 +88,7 @@ const SearchBar = () => {
       </div>
       {filteredModules.length > 0 && !inputBlurred && (
         <ul
-          className="absolute z-10 w-full bg-white border mt-1 border-gray-300 rounded-lg overflow-hidden shadow-lg"
+          className="absolute z-10 w-full bg-dark border border-lighter_dark mt-1 rounded-lg overflow-hidden shadow-lg"
           role="listbox"
           id="search-results"
         >
@@ -96,8 +96,10 @@ const SearchBar = () => {
             <a href={`/module/${module.id}`} key={index}>
               <li
                 key={index}
-                className={`px-6 py-4 hover:bg-gray-100 cursor-pointer text-sm ${
-                  index === filteredModules.length - 1 ? "" : "border-b border-gray-200"
+                className={`px-6 py-4 hover:bg-black cursor-pointer text-sm ${
+                  index === filteredModules.length - 1
+                    ? ""
+                    : "border-b border-lighter_dark"
                 }`}
               >
                 {module.name}

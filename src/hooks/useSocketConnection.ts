@@ -8,12 +8,7 @@ export const useSocketConnection = () => {
   useEffect(() => {
     const socket = io("http://localhost:3001");
 
-    socket.on("connect", () => {
-      console.log("Connected to server");
-    });
-
     socket.on("moduleUpdate", (data: { id: string; temperature: number }[]) => {
-      console.log("Received module update:", data);
       setRecentReadings(data);
     });
 

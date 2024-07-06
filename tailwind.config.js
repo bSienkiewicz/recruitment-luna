@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  mode: 'jit',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -8,14 +9,22 @@ export default {
     extend: {
       borderColor: {
         gray_border: '#D8D8D8',
+        darker: "#0f0f0f",
+        dark: "#141414",
+        lighter_dark: "#282828",
       },
       backgroundColor: {
-        green_main: '#79CD3A',
-        gray_darker: "#E9E9E9"
+        green_main: '#33D999',
+        dark_green_main: '#2E8B57',
+        gray_darker: "#E9E9E9",
+        dark: "#141414",
+        darker: "#0f0f0f",
+        lighter_dark: "#1E1E1E",
       },
       textColor: {
-        green_main: '#79CD3A',
-        dark_green_main: '#66AC28',
+        green_main: '#33D999',
+        dark_green_main: '#2E8B57',
+        lighter_dark: "#383838",
       },
       animation: {
         'cycle': 'cycle 4s infinite',
