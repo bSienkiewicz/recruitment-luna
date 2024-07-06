@@ -1,15 +1,11 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useEffect, useState } from "react";
-import useTemperatureStore from "../../../store/temperatures";
+import useTemperatureStore from "../../store/temperatures";
 
 type AttributeBarProps = {
   text: string;
-  color: string;
-  accent: string;
-  icon?: IconProp;
 };
 
-const AttributeBar = ({ text, color, accent, icon }: AttributeBarProps) => {
+const AttributeBar = ({ text }: AttributeBarProps) => {
   const recentReadings = useTemperatureStore((state) => state.recentReadings);
   const [simulatedReading, setSimulatedReading] = useState<number | null>(null);
   const [target, _setTarget] = useState<number>(() => Math.floor(Math.random() * (70 - 30 + 1) + 30))
@@ -33,11 +29,11 @@ const AttributeBar = ({ text, color, accent, icon }: AttributeBarProps) => {
       </div>
       <div
         className={`w-full h-4 rounded-md relative overflow-hidden`}
-        style={{ backgroundColor: color }}
+        style={{ backgroundColor: "#33D99950" }}
       >
         <div
           className={`absolute top-0 left-0 h-full rounded-md z-10 transition-all duration-1000`}
-          style={{ width: simulatedReading + "%", backgroundColor: accent }}
+          style={{ width: simulatedReading + "%", backgroundColor: "#33D999" }}
         ></div>
       </div>
     </div>

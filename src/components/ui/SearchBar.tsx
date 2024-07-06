@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { api } from "../services/api";
+import { api } from "../../services/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Module } from "../types";
+import { Module } from "../../types";
 import Input from "./Input";
+import { useNavigate } from "react-router-dom";
 
 const useModuleSearch = () => {
   const [modules, setModules] = useState<Module[]>([]);
@@ -45,6 +46,7 @@ const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputBlurred, setInputBlurred] = useState(false);
   const { filteredModules, fetchModules, filterModules } = useModuleSearch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchModules();
@@ -88,12 +90,12 @@ const SearchBar = () => {
       </div>
       {filteredModules.length > 0 && !inputBlurred && (
         <ul
-          className="absolute z-10 w-full bg-dark border border-lighter_dark mt-1 rounded-lg overflow-hidden shadow-lg"
+          className="absolute z-10 w-full bg-dark border border-lighter_dark mt-1 rounded-lg overflow-hidden shadow-lg top-full"
           role="listbox"
           id="search-results"
         >
           {filteredModules.map((module, index) => (
-            <a href={`/module/${module.id}`} key={index}>
+            <div onClick={()=> navigate(`/module/${module.id}`)} key={index}>
               <li
                 key={index}
                 className={`px-6 py-4 hover:bg-black cursor-pointer text-sm ${
@@ -104,7 +106,7 @@ const SearchBar = () => {
               >
                 {module.name}
               </li>
-            </a>
+            </div>
           ))}
         </ul>
       )}

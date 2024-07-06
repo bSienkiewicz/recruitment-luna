@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import useAppDataStore from "../store/appData";
 import { Module } from "../types";
 

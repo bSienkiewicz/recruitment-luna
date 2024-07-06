@@ -1,5 +1,5 @@
 import GaugeComponent from "react-gauge-component";
-import { Module } from "../../../types";
+import { Module } from "../../types";
 
 interface ModuleGaugeProps {
   safeTemperatureRanges: {
@@ -12,14 +12,25 @@ interface ModuleGaugeProps {
   module: Module;
 }
 
-const ModuleGauge = ({
+const Gauge = ({
   safeTemperatureRanges,
   recentTemperature,
   module,
 }: ModuleGaugeProps) => {
+  const getLabelColor = (temperature: number) => {
+    if (
+      temperature < safeTemperatureRanges.warnMin ||
+      temperature > safeTemperatureRanges.warnMax
+    ) {
+      return "#e31a0b";
+    }
+    return "#33D999";
+  };
+  const labelColor = getLabelColor(recentTemperature);
+
   return (
     <GaugeComponent
-      type="semicircle"
+      type="radial"
       marginInPercent={0.04}
       arc={{
         padding: 0.02,
@@ -27,7 +38,7 @@ const ModuleGauge = ({
         subArcs: [
           {
             limit: safeTemperatureRanges.warnMin,
-            color: "#2E8B57",
+            color: "#991a11",
             showTick: false,
           },
           {
@@ -37,17 +48,31 @@ const ModuleGauge = ({
           },
           {
             limit: safeTemperatureRanges.max,
-            color: "#2E8B57",
+            color: "#991a11",
           },
         ],
       }}
       labels={{
         valueLabel: {
           formatTextValue: () => recentTemperature + "ºC",
+          style: {
+            fill: labelColor,
+            fontWeight: "bold",
+          },
         },
         tickLabels: {
           type: "inner",
-          ticks: [{ value: module.targetTemperature }],
+          ticks: [
+            { value: module.targetTemperature },
+            ...(0 > module.targetTemperature - 2 && 0 < safeTemperatureRanges.warnMin ? [{
+              value: 0,
+              lineConfig: {
+                length: 2,
+                color: "#33D999",
+                width: 2,
+              },
+            }] : []),
+          ],
           defaultTickValueConfig: {
             formatTextValue: (value) => value + "ºC",
           },
@@ -61,4 +86,4 @@ const ModuleGauge = ({
   );
 };
 
-export default ModuleGauge;
+export default Gauge;

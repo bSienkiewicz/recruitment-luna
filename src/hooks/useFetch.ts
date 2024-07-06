@@ -4,7 +4,7 @@ import { Module, ModuleHistoryItem } from "../types";
 import { getSafeTemperatureRanges } from "../utils/temperatureUtils";
 import toast from "react-hot-toast";
 
-export const useModule = (id?: string | undefined) => {
+export const useFetch = (id?: string | undefined) => {
   const [module, setModule] = useState<Module | undefined>();
   const [modules, setModules] = useState<Module[]>([]);
   const [readings, setReadings] = useState<ModuleHistoryItem[]>([]);
@@ -47,7 +47,7 @@ export const useModule = (id?: string | undefined) => {
           start,
           stop,
           mode
-        );
+        )
         setReadings(data);
       } catch (error) {
         console.error("Error fetching module readings:", error);

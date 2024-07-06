@@ -1,6 +1,7 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import toast from "react-hot-toast";
 
 interface HeaderProps {
   title: string;
@@ -9,10 +10,20 @@ interface HeaderProps {
     icon?: IconDefinition;
     onClick: () => void;
     ariaLabel?: string;
+    disabled?: boolean;
   };
 }
 
 const Header: React.FC<HeaderProps> = ({ title, button }) => {
+  const handleButtonClick = () => {
+    if (button) {
+      if (!button.disabled && button.onClick) {
+        button.onClick();
+      } else {
+        toast.error("Cannot edit a module that is not available", {id: 'edit-module'});
+      }
+    }
+  };
   return (
     <div className="flex justify-between items-center w-full">
       <div className="flex flex-col">
@@ -20,12 +31,17 @@ const Header: React.FC<HeaderProps> = ({ title, button }) => {
       </div>
       {button && (
         <button
-          className="styled_black rounded-full py-3 px-5 flex items-center justify-center text-sm"
+          className={`styled_black rounded-full py-3 px-5 flex items-center justify-center text-sm ${
+            button.disabled ? "opacity-50 !cursor-not-allowed" : ""
+          }`}
           aria-label={button.ariaLabel || button.text}
-          onClick={button.onClick}
+          onClick={handleButtonClick}
         >
           {button.icon && (
-            <FontAwesomeIcon icon={button.icon} className="cursor-pointer mr-2" />
+            <FontAwesomeIcon
+              icon={button.icon}
+              className="cursor-pointer mr-2"
+            />
           )}
           <span>{button.text}</span>
         </button>

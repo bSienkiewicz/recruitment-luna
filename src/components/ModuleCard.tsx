@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { calculateTemperaturePosition, getSafeTemperatureRanges } from "../utils/temperatureUtils";
 import { Module } from "../types";
+import { useNavigate } from "react-router-dom";
 
 interface ModuleCardProps {
   module: Module;
@@ -8,6 +9,7 @@ interface ModuleCardProps {
 }
 
 const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
+  const navigate = useNavigate();
   const MODULE_BASE_URL = "/module/";
 
   const safeRanges = getSafeTemperatureRanges(module.targetTemperature);
@@ -16,9 +18,8 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
     : 0;
 
   return (
-    <div className="flex flex-col items-center group">
-      <a
-        href={`${MODULE_BASE_URL}${module.id}`}
+    <div className="flex flex-col items-center group cursor-pointer">
+      <div onClick={() => navigate(`${MODULE_BASE_URL}${module.id}`)}
         className="relative rounded-xl styled_black p-8 px-4 pt-8 pb-4 transition-all overflow-hidden w-full"
       >
         <div className="flex items-center justify-between mb-4">
@@ -67,7 +68,7 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
             </div>
           </>
         )}
-      </a>
+      </div>
       {module.available && (
         <p className="text-xs text-neutral-400">{module.targetTemperature}°C</p>
       )}

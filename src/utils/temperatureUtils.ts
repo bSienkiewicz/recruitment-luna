@@ -10,13 +10,13 @@ export const calculateTemperaturePosition = (
 
 export const getSafeTemperatureRanges = (targetTemperature: number) => {
   return {
-    min: Math.max(0, targetTemperature - 5),
-    max: targetTemperature + 5,
-    warnMin: targetTemperature - 3,
-    warnMax: targetTemperature + 3,
+    min: targetTemperature - 2,
+    max: targetTemperature + 2,
+    warnMin: targetTemperature - 0.5,
+    warnMax: targetTemperature + 0.5,
   };
 };
 
-export const calculateDeviation = (current: number, target: number): number => {
+export const calculateTempDiff = (current: number, target: number): number => {
   return current - target;
 };

@@ -1,32 +1,32 @@
 import { useState, useEffect } from "react";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import useTemperatureStore from "../../store/temperatures";
-import ModuleCard from "../../components/ModuleCard";
-import Header from "../../layout/Header";
-import AddModuleModal from "../../components/Modal_AddModule";
-import { useModule } from "../../hooks/useModule";
+import useTemperatureStore from "../store/temperatures";
+import ModuleCard from "../components/ModuleCard";
+import Header from "../layout/Header";
+import { useFetch } from "../hooks/useFetch";
+import ModuleModal from "../components/ui/ModuleModal";
 
 function Dashboard() {
   const {
     modules,
     fetchModules,
     postModule,
-  } = useModule();
+  } = useFetch();
   const [showModal, setShowModal] = useState(false);
   const recentReadings = useTemperatureStore((state) => state.recentReadings);
-
 
   useEffect(() => {
     fetchModules();
   }, [fetchModules]);
 
   return (
-    <div className="overflow-auto">
-      <AddModuleModal
+    <>
+      <ModuleModal
         showModal={showModal}
+        onSubmit={postModule}
         handleShowModal={setShowModal}
-        postNewModule={postModule}
         icon={faPlus}
+        isEditMode={false}
       />
 
       <Header
@@ -49,7 +49,7 @@ function Dashboard() {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
