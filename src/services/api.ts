@@ -1,4 +1,3 @@
-import useAppDataStore from "../store/appData";
 import { Module } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -13,7 +12,6 @@ export const api = {
       }
       return response.json();
     } catch (error: any) {
-      useAppDataStore.getState().setRecentError(error.message);
       throw error;
     }
   },
@@ -21,6 +19,9 @@ export const api = {
   async getModule(id: string): Promise<Module> {
     const response = await fetch(`${API_BASE_URL}/modules/${id}`);
     if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error("Module not found");
+      }
       throw new Error(`Failed to fetch module with id ${id}`);
     }
     return response.json();

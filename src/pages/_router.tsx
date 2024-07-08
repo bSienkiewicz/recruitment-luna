@@ -4,6 +4,9 @@ import ModuleDetails from "./ModuleDetails";
 import Dashboard from "./Dashboard";
 import Navbar from "../layout/Navbar";
 import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
+import Spinner from "../components/ui/Spinner";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +31,11 @@ function AppWrapper() {
     <div className="flex flex-col h-svh w-screen">
       <Navbar />
       <div className="flex-1 container mx-auto px-5 py-10 relative h-svh overflow-auto">
-        <Outlet />
+        <ErrorBoundary>
+          <Suspense fallback={<Spinner />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </div>
       <Toaster
         position="top-center"

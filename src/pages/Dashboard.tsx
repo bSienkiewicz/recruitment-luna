@@ -3,7 +3,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import useTemperatureStore from "../store/temperatures";
 import ModuleCard from "../components/ModuleCard";
 import Header from "../layout/Header";
-import { useFetch } from "../hooks/useFetch";
+import { useModules } from "../hooks/useFetch";
 import ModuleModal from "../components/ui/ModuleModal";
 
 function Dashboard() {
@@ -11,7 +11,7 @@ function Dashboard() {
     modules,
     fetchModules,
     postModule,
-  } = useFetch();
+  } = useModules();
   const [showModal, setShowModal] = useState(false);
   const recentReadings = useTemperatureStore((state) => state.recentReadings);
 

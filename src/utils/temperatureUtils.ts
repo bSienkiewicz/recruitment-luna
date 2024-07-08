@@ -1,5 +1,5 @@
 // calculate the width percentage of the temperature bar
-export const calculateTemperaturePosition = (
+export const calculateTemperatureBarWidth = (
   currentTemperature: number,
   minTemperature: number,
   maxTemperature: number
@@ -9,11 +9,18 @@ export const calculateTemperaturePosition = (
 };
 
 export const getSafeTemperatureRanges = (targetTemperature: number) => {
+  const errorRanges = {
+    min: -2,
+    max: 2,
+    warnMin: -0.5,
+    warnMax: 0.5,
+  }
+
   return {
-    min: targetTemperature - 2,
-    max: targetTemperature + 2,
-    warnMin: targetTemperature - 0.5,
-    warnMax: targetTemperature + 0.5,
+    min: targetTemperature + errorRanges.min,
+    max: targetTemperature + errorRanges.max,
+    warnMin: targetTemperature + errorRanges.warnMin,
+    warnMax: targetTemperature + errorRanges.warnMax,
   };
 };
 

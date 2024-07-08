@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import LineChart from "./LineChart";
 import DatePicker from "react-datepicker";
-import { useFetch } from "../hooks/useFetch";
 import toast from "react-hot-toast";
 import { Module, ModuleHistoryItem } from "../types";
+import { useModuleHistory } from "../hooks/useFetch";
 
 interface SectionChartInfoProps {
   safeTemperatureRanges: {
@@ -29,7 +29,7 @@ const SectionModuleChart = ({
   const [chartDateEnd, setChartDateEnd] = useState<Date>(
     new Date(new Date().getTime())
   );
-  const { readings, fetchHistoricalReadings } = useFetch(id);
+  const { readings, fetchHistoricalReadings } = useModuleHistory(id);
   const [realtimeReadings, setRealtimeReadings] = useState<ModuleHistoryItem[]>(
     []
   );
@@ -164,22 +164,24 @@ const SectionModuleChart = ({
             </p>
           )}
           <div className="flex gap-2">
-            <div
-              className={`px-4 py-1 bg-darker border border-lighter_dark rounded-md text-xs cursor-pointer transition-all select-none ${
-                showRealtime ? "bg-green_main/50" : ""
-              }`}
-              onClick={() => setShowRealtime(!showRealtime)}
-            >
-              Realtime updates
-            </div>
-            <div
+            {module.available && (
+              <button
+                className={`px-4 py-1 bg-darker border border-lighter_dark rounded-md text-xs cursor-pointer transition-all select-none ${
+                  showRealtime ? "bg-green_main/50" : ""
+                }`}
+                onClick={() => setShowRealtime(!showRealtime)}
+              >
+                Realtime updates
+              </button>
+            )}
+            <button
               className={`px-4 py-1 bg-darker border border-lighter_dark rounded-md text-xs cursor-pointer transition-all select-none ${
                 showSafeZone ? "bg-green_main/50" : ""
               }`}
               onClick={() => setShowSafeZone(!showSafeZone)}
             >
               Show safe zone
-            </div>
+            </button>
           </div>
         </div>
         <div className="flex-1">

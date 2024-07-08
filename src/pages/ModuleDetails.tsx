@@ -7,12 +7,13 @@ import {
 import Header from "../layout/Header";
 import useTemperatureStore from "../store/temperatures";
 import "react-datepicker/dist/react-datepicker.css";
-import { useFetch } from "../hooks/useFetch";
 import Spinner from "../components/ui/Spinner";
 import SectionModuleGauge from "../components/SectionModuleGauge";
 import SectionModuleChart from "../components/SectionModuleChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModuleModal from "../components/ui/ModuleModal";
+import { useModule } from "../hooks/useFetch";
+import ErrorDisplay from "../components/ErrorDisplay";
 
 const ModuleDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,34 +21,37 @@ const ModuleDetails = () => {
     module,
     safeTemperatureRanges,
     fetchModule,
-    fetchHistoricalReadings,
-    editModule,
-  } = useFetch(id);
-  const [loading, setLoading] = useState<boolean>(true);
+    patchModule,
+    isLoading,
+    error
+  } = useModule(id);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [recentTemperature, setRecentTemperature] = useState<number>(0);
   const recentReadings = useTemperatureStore((state) => state.recentReadings);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Get the most recent reading from socket
+    if (!module) return;
     const reading = recentReadings.find((reading) => reading.id === id);
     if (reading) {
       setRecentTemperature(reading.temperature);
     }
-  }, [recentReadings, id]);
+  }, [recentReadings, id, module]);
 
   useEffect(() => {
-    fetchModule()
-      .then(() => setLoading(false))
-      .catch((error) => {
-        console.error("Failed to fetch module:", error);
-      });
-    setLoading(false);
-  }, [fetchModule, fetchHistoricalReadings]);
+    fetchModule();
+  }, [fetchModule]);
 
-  if (loading) {
+  if (isLoading) {
     return <Spinner />;
+  }
+
+  if (error) {
+    return <ErrorDisplay error={error} />;
+  }
+
+  if (!module || !id) {
+    return <ErrorDisplay error="No module data available" />;
   }
 
   if (module && id) {
@@ -55,7 +59,7 @@ const ModuleDetails = () => {
       <div className="flex flex-col h-full">
         <ModuleModal
           showModal={showModal}
-          onSubmit={editModule}
+          onSubmit={patchModule}
           handleShowModal={setShowModal}
           icon={faEdit}
           isEditMode={true}
@@ -81,7 +85,7 @@ const ModuleDetails = () => {
             >
               {module?.available ? "Online" : "Offline"}
             </div>
-            <div
+            <button
               className="cursor-pointer px-4 py-1 rounded-full text-xs border border-lighter_dark"
               onClick={() => {
                 navigate("/");
@@ -92,7 +96,7 @@ const ModuleDetails = () => {
                 className="cursor-pointer mr-2"
               />{" "}
               Back to modules
-            </div>
+            </button>
           </div>
           <p className="text-sm mt-4 text-gray-400 line-clamp-2 mb-5">
             {module?.description}

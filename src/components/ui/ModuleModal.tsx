@@ -68,12 +68,12 @@ const ModuleModal: React.FC<ModuleModalProps> = ({
       <div className="flex flex-col">
         <h2 className="text-2xl font-medium">
           {isEditMode ? "Edit module" : "Add new module"}
-          <span
+          <button
             className="float-end cursor-pointer"
             onClick={() => handleShowModal(false)}
           >
             <FontAwesomeIcon icon={faClose} />
-          </span>
+          </button>
         </h2>
         <p className="text-sm mb-5 text-neutral-400">
           {isEditMode ? "Edit" : "Insert"} the module details below:

@@ -36,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({ title, button }) => {
           }`}
           aria-label={button.ariaLabel || button.text}
           onClick={handleButtonClick}
+          disabled={button.disabled}
         >
           {button.icon && (
             <FontAwesomeIcon

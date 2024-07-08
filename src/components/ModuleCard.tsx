@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { calculateTemperaturePosition, getSafeTemperatureRanges } from "../utils/temperatureUtils";
+import { calculateTemperatureBarWidth, getSafeTemperatureRanges } from "../utils/temperatureUtils";
 import { Module } from "../types";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface ModuleCardProps {
   module: Module;
@@ -9,17 +9,16 @@ interface ModuleCardProps {
 }
 
 const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
-  const navigate = useNavigate();
   const MODULE_BASE_URL = "/module/";
 
   const safeRanges = getSafeTemperatureRanges(module.targetTemperature);
   const temperatureWidth = latestReading !== undefined
-    ? calculateTemperaturePosition(latestReading, safeRanges.min, safeRanges.max)
+    ? calculateTemperatureBarWidth(latestReading, safeRanges.min, safeRanges.max)
     : 0;
 
   return (
     <div className="flex flex-col items-center group cursor-pointer">
-      <div onClick={() => navigate(`${MODULE_BASE_URL}${module.id}`)}
+      <Link to={`${MODULE_BASE_URL}${module.id}`}
         className="relative rounded-xl styled_black p-8 px-4 pt-8 pb-4 transition-all overflow-hidden w-full"
       >
         <div className="flex items-center justify-between mb-4">
@@ -34,12 +33,6 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
             </h4>
           </div>
         </div>
-
-        {/* {module.description && module.description?.length > 0 && (
-          <p className="line-clamp-3 text-sm min-h-[60px]">
-            {module.description}
-          </p>
-        )} */}
 
         <div className="grid grid-cols-2 justify-between items-center mt-4">
           <div className="text-sm flex items-center justify-center border border-lighter_dark rounded-full place-self-end text-neutral-400 col-start-2">
@@ -68,7 +61,7 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
             </div>
           </>
         )}
-      </div>
+      </Link>
       {module.available && (
         <p className="text-xs text-neutral-400">{module.targetTemperature}°C</p>
       )}
