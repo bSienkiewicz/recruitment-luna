@@ -25,6 +25,8 @@ const DatePickerContainer = ({ handleDateChange, handleRangeModeChange, chartDat
         selected={chartDateRange.end}
         onChange={(date) => handleDateChange(chartDateRange.start, date)}
         minDate={chartDateRange.start}
+        maxDate={new Date()}
+        
       />
       <select
         className="self-end px-4 py-2 text-xs bg-transparent border border-lighter_dark rounded-md"

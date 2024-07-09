@@ -42,7 +42,7 @@ const SectionModuleChart: React.FC<SectionModuleChartProps> = ({
     fetchHistoricalReadings(
       chartDateRange.start.toISOString(),
       chartDateRange.end.toISOString(),
-      "hourly"
+      rangeMode
     );
   }, [fetchHistoricalReadings, chartDateRange, rangeMode]);
 

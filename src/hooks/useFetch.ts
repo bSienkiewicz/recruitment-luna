@@ -112,7 +112,7 @@ export const useModuleHistory = (id?: string) => {
           stop,
           mode
         );
-        if (data.length > 100) {
+        if (data.length > 300) {
           // Keep only the first 100 items
           setReadings(data.slice(-300));
           toast.error("Too many readings to display. Showing the last 300.");
