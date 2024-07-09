@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Modal from "./Modal";
-import Input from "./Input";
-import Textarea from "./Textarea";
+import Modal from "./ui/Modal";
+import Input from "./ui/Input";
+import Textarea from "./ui/Textarea";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getValidationErrors } from "../../utils/helpers";
+import { getValidationErrors } from "../utils/helpers";
 import toast from "react-hot-toast";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 
@@ -109,14 +109,14 @@ const ModuleModal: React.FC<ModuleModalProps> = ({
           />
           <div className="flex justify-end gap-3 mt-5">
             <button
-              className="bg-dark border border-lighter_dark rounded-md font-semibold px-4 py-2"
+              className="button-black font-semibold px-4 py-2"
               onClick={() => handleShowModal(false)}
               type="button"
             >
               Cancel
             </button>
             <button
-              className="bg-green_main text-black rounded-md font-semibold px-4 py-2"
+              className="bg-darker text-white border border-green_main hover:bg-dark_green_main transition-all rounded-md font-semibold px-4 py-2"
               type="submit"
             >
               {icon && <FontAwesomeIcon icon={icon} className="mr-2" />}

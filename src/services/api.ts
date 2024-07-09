@@ -1,10 +1,10 @@
-import { Module } from "../types";
+import { ModuleType } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
 export const api = {
-  async getAllModules(): Promise<Module[]> {
+  async getAllModules(): Promise<ModuleType[]> {
     try {
       const response = await fetch(`${API_BASE_URL}/modules`);
       if (!response.ok) {
@@ -16,7 +16,7 @@ export const api = {
     }
   },
 
-  async getModule(id: string): Promise<Module> {
+  async getModule(id: string): Promise<ModuleType> {
     const response = await fetch(`${API_BASE_URL}/modules/${id}`);
     if (!response.ok) {
       if (response.status === 404) {
@@ -27,7 +27,7 @@ export const api = {
     return response.json();
   },
 
-  async postModule(module: Module): Promise<Module> {
+  async postModule(module: ModuleType): Promise<ModuleType> {
     const response = await fetch(`${API_BASE_URL}/modules`, {
       method: "POST",
       headers: {
@@ -56,7 +56,7 @@ export const api = {
     return response.json();
   },
 
-  async patchModule(module: Partial<Module>): Promise<Partial<Module>> {
+  async patchModule(module: Partial<ModuleType>): Promise<Partial<ModuleType>> {
     const response = await fetch(`${API_BASE_URL}/modules/${module.id}`, {
       method: "PATCH",
       headers: {

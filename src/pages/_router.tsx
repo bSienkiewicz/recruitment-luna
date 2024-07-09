@@ -30,7 +30,7 @@ function AppWrapper() {
   return (
     <div className="flex flex-col h-svh w-screen">
       <Navbar />
-      <div className="flex-1 container mx-auto px-5 py-10 relative h-svh overflow-auto">
+      <div className="flex-1 container mx-auto px-5 py-10 relative max-h-svh overflow-auto">
         <ErrorBoundary>
           <Suspense fallback={<Spinner />}>
             <Outlet />

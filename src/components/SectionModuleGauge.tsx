@@ -1,10 +1,10 @@
 import AttributeBar from "./ui/AttributeBar";
 import { calculateTempDiff } from "../utils/temperatureUtils";
 import Gauge from "./ui/Gauge";
-import { Module } from "../types";
+import { ModuleType } from "../types";
 
 interface SectionModuleInfoInfoProps {
-  module: Module;
+  module: ModuleType;
   safeTemperatureRanges: {
     min: number;
     max: number;
@@ -14,10 +14,13 @@ interface SectionModuleInfoInfoProps {
   recentTemperature: number | null;
 }
 
-const SectionModuleGauge = ({module, safeTemperatureRanges, recentTemperature} : SectionModuleInfoInfoProps) => {
-
+const SectionModuleGauge = ({
+  module,
+  safeTemperatureRanges,
+  recentTemperature,
+}: SectionModuleInfoInfoProps) => {
   return (
-    <div className="col-span-2 row-span-2 bg-dark p-5">
+    <div className={`section_dark col-span-2 row-span-2 bg-dark p-5 rounded-md ${!module.available && "border lg:border-0 border-red-500/50"} animate-fade-in`}>
       {module.available ? (
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col">
@@ -53,8 +56,11 @@ const SectionModuleGauge = ({module, safeTemperatureRanges, recentTemperature} :
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center h-full">
-          <p className="text-center text-sm text-gray-400">
+          <p className="text-center text-gray-400 font-semibold mb-3">
             Module is offline.
+          </p>
+          <p className="text-center text-sm text-gray-400">
+            You can only see historical data.
           </p>
           <p className="text-center text-sm text-gray-400">
             Live preview is disabled.

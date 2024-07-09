@@ -1,6 +1,6 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-export interface Module {
+export interface ModuleType {
   id: string;
   name: string;
   description: string;
@@ -16,8 +16,8 @@ export interface ModuleHistoryItem {
 export interface ModuleModalProps {
   showModal: boolean;
   handleShowModal: (isShown: boolean) => void;
-  postNewModule?: (body: Partial<Module>) => void;
-  editModule?: (body: Partial<Module>) => void;
-  initialData?: Module;
+  postNewModule?: (body: Partial<ModuleType>) => void;
+  editModule?: (body: Partial<ModuleType>) => void;
+  initialData?: ModuleType;
   icon?: IconProp;
 }

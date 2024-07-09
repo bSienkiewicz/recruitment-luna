@@ -21,7 +21,15 @@
 }
 
 @layer components {
-  .styled_black {
-    @apply bg-dark border border-lighter_dark hover:bg-lighter_dark transition-all;
+  .button_dark {
+    @apply bg-dark border border-lighter_dark hover:bg-lighter_dark transition-all rounded-md;
+  }
+
+  .button-black {
+    @apply bg-darker border border-lighter_dark hover:bg-dark transition-all rounded-md;
+  }
+
+  .section_dark {
+    @apply bg-dark border border-lighter_dark;
   }
 }

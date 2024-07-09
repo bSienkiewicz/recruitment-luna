@@ -1,25 +1,40 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { calculateTemperatureBarWidth, getSafeTemperatureRanges } from "../utils/temperatureUtils";
-import { Module } from "../types";
+import {
+  calculateTemperatureBarWidth,
+  getSafeTemperatureRanges,
+} from "../utils/temperatureUtils";
+import { ModuleType } from "../types";
 import { Link } from "react-router-dom";
 
 interface ModuleCardProps {
-  module: Module;
+  module: ModuleType;
   latestReading?: number;
+  idx: number;
 }
 
-const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
+const ModuleCard = ({ module, latestReading, idx }: ModuleCardProps) => {
   const MODULE_BASE_URL = "/module/";
 
   const safeRanges = getSafeTemperatureRanges(module.targetTemperature);
-  const temperatureWidth = latestReading !== undefined
-    ? calculateTemperatureBarWidth(latestReading, safeRanges.min, safeRanges.max)
-    : 0;
+  const temperatureWidth =
+    latestReading !== undefined
+      ? calculateTemperatureBarWidth(
+          latestReading,
+          safeRanges.min,
+          safeRanges.max
+        )
+      : 0;
+
+  const isReadingSafe = () => {
+    if (!latestReading) return true;
+    return latestReading >= safeRanges.warnMin && latestReading <= safeRanges.warnMax;
+  };
 
   return (
-    <div className="flex flex-col items-center group cursor-pointer">
-      <Link to={`${MODULE_BASE_URL}${module.id}`}
-        className="relative rounded-xl styled_black p-8 px-4 pt-8 pb-4 transition-all overflow-hidden w-full"
+    <div className="flex flex-col items-center group cursor-pointer animate-fade-in opacity-0" style={{ animationDelay: `${idx * 100}ms` }}>
+      <Link
+        to={`${MODULE_BASE_URL}${module.id}`}
+        className="button_dark relative rounded-xl p-8 px-4 pt-8 pb-4 transition-all overflow-hidden w-full"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex gap-2 items-center">
@@ -37,7 +52,15 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
         <div className="grid grid-cols-2 justify-between items-center mt-4">
           <div className="text-sm flex items-center justify-center border border-lighter_dark rounded-full place-self-end text-neutral-400 col-start-2">
             {module.available && (
-              <span className="px-3 py-1 text-green_main font-semibold border-r border-lighter_dark">
+              <span
+                className="px-3 py-1  font-semibold border-r border-lighter_dark"
+                style={{
+                  color:
+                    isReadingSafe()
+                      ? "#33d999"
+                      : "#ef4444",
+                }}
+              >
                 {latestReading ? latestReading : "..."}°C
               </span>
             )}
@@ -57,11 +80,19 @@ const ModuleCard = ({ module, latestReading }: ModuleCardProps) => {
               className="absolute bottom-0 left-0 flex flex-col transition-all"
               style={{ width: `${temperatureWidth}%` }}
             >
-              <div className="w-full h-[3px] bg-green_main"></div>
+              <div className="w-full h-[3px]"
+                style={{
+                  background: 
+                    isReadingSafe()
+                      ? "#33d999"
+                      : "#ef4444",
+                }}
+              ></div>
             </div>
           </>
         )}
       </Link>
+
       {module.available && (
         <p className="text-xs text-neutral-400">{module.targetTemperature}°C</p>
       )}

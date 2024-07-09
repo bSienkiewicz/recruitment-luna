@@ -12,9 +12,11 @@ interface HeaderProps {
     ariaLabel?: string;
     disabled?: boolean;
   };
+  error?: string | null;
+  isLoading?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, button }) => {
+const Header: React.FC<HeaderProps> = ({ title, button, error, isLoading }) => {
   const handleButtonClick = () => {
     if (button) {
       if (!button.disabled && button.onClick) {
@@ -24,14 +26,15 @@ const Header: React.FC<HeaderProps> = ({ title, button }) => {
       }
     }
   };
+
   return (
     <div className="flex justify-between items-center w-full">
       <div className="flex flex-col">
         <h1 className="text-3xl font-medium line-clamp-1">{title}</h1>
       </div>
-      {button && (
+      {button && !error && !isLoading && (
         <button
-          className={`styled_black rounded-full py-3 px-5 flex items-center justify-center text-sm ${
+          className={`button_dark py-3 px-5 flex items-center justify-center text-sm ${
             button.disabled ? "opacity-50 !cursor-not-allowed" : ""
           }`}
           aria-label={button.ariaLabel || button.text}

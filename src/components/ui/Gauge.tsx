@@ -1,5 +1,5 @@
 import GaugeComponent from "react-gauge-component";
-import { Module } from "../../types";
+import { ModuleType } from "../../types";
 
 interface ModuleGaugeProps {
   safeTemperatureRanges: {
@@ -9,7 +9,7 @@ interface ModuleGaugeProps {
     warnMax: number;
   };
   recentTemperature: number;
-  module: Module;
+  module: ModuleType;
 }
 
 const Gauge = ({
@@ -30,7 +30,7 @@ const Gauge = ({
 
   return (
     <GaugeComponent
-      type="radial"
+      type="grafana"
       marginInPercent={0.04}
       arc={{
         padding: 0.02,
@@ -38,7 +38,7 @@ const Gauge = ({
         subArcs: [
           {
             limit: safeTemperatureRanges.warnMin,
-            color: "#991a11",
+            color: "#33D99955",
             showTick: false,
           },
           {
@@ -48,7 +48,7 @@ const Gauge = ({
           },
           {
             limit: safeTemperatureRanges.max,
-            color: "#991a11",
+            color: "#33D99955",
           },
         ],
       }}

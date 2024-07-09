@@ -1,13 +1,13 @@
 import React, { useCallback, useRef, useState } from "react";
 import { api } from "../../services/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Module } from "../../types";
+import { ModuleType } from "../../types";
 import Input from "./Input";
 import { Link } from "react-router-dom";
 
 export const useModuleSearch = () => {
-  const [modules, setModules] = useState<Module[]>([]);
-  const [filteredModules, setFilteredModules] = useState<Module[]>([]);
+  const [modules, setModules] = useState<ModuleType[]>([]);
+  const [filteredModules, setFilteredModules] = useState<ModuleType[]>([]);
 
   const fetchModules = useCallback(async () => {
     try {
@@ -53,11 +53,15 @@ const SearchBar = () => {
     setTimeout(() => setIsInputFocused(false), 100);
   };
 
+  const handleSearchBarClick = () => {
+    inputRef.current?.focus();
+  };
+
   return (
     <div className="relative hidden md:flex">
       <div
         className="border border-lighter_dark rounded-full px-6 py-2 text-sm items-center cursor-text hidden sm:flex focus-within:bg-black transition-all"
-        onClick={() => inputRef.current?.focus()}
+        onClick={handleSearchBarClick}
       >
         <FontAwesomeIcon
           icon={["fas", "search"]}

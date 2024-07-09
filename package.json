@@ -1,7 +1,7 @@
 {
   "name": "recruitment-luna-front-ts",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -24,6 +24,7 @@
     "react-datepicker": "^7.2.0",
     "react-dom": "^18.3.1",
     "react-gauge-component": "^1.2.21",
+    "react-helmet-async": "^2.0.5",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.24.1",
     "socket.io-client": "^4.7.5",

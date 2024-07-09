@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
 import { api } from "../services/api";
-import { Module, ModuleHistoryItem } from "../types";
+import { ModuleType, ModuleHistoryItem } from "../types";
 import { getSafeTemperatureRanges } from "../utils/temperatureUtils";
 import toast from "react-hot-toast";
 import { useErrorHandler } from "./useErrorHandler";
 
 export const useModule = (id?: string) => {
-  const [module, setModule] = useState<Module | undefined>();
+  const [module, setModule] = useState<ModuleType | undefined>();
   const [safeTemperatureRanges, setSafeTemperatureRanges] = useState({
     min: 0,
     max: 0,
@@ -33,7 +33,7 @@ export const useModule = (id?: string) => {
     }
   }, [id, clearError, handleError]);
 
-  const patchModule = async (updatedData: Partial<Module>) => {
+  const patchModule = async (updatedData: Partial<ModuleType>) => {
     if (!id) return;
     clearError();
     try {
@@ -45,7 +45,7 @@ export const useModule = (id?: string) => {
       fetchModule(); // re-fetch module data after successful update
     } catch (error) {
       handleError(error);
-    }
+    } 
   };
 
   return {
@@ -59,8 +59,8 @@ export const useModule = (id?: string) => {
 };
 
 export const useModules = () => {
-  const [modules, setModules] = useState<Module[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [modules, setModules] = useState<ModuleType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { error, handleError, clearError } = useErrorHandler();
 
   const fetchModules = useCallback(async () => {
@@ -69,9 +69,10 @@ export const useModules = () => {
       await api
         .getAllModules()
         .then((data) => setModules(data))
-        .then(() => setIsLoading(false));
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   }, [clearError, handleError]);
 
@@ -89,6 +90,8 @@ export const useModules = () => {
           .then(() => setIsLoading(false));
       } catch (error) {
         handleError(error);
+      } finally {
+        setIsLoading(false);
       }
     },
     [fetchModules, clearError, handleError]

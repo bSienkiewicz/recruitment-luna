@@ -7,15 +7,18 @@ import { RouterProvider } from "react-router-dom";
 import AppProvider from "./layout/SocketProvider.tsx";
 import Spinner from "./components/ui/Spinner.tsx";
 import { router } from "./pages/_router.tsx";
+import { HelmetProvider } from "react-helmet-async";
 
 library.add(fas);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AppProvider>
+    <HelmetProvider>
+      <AppProvider>
         <Suspense fallback={<Spinner />}>
           <RouterProvider router={router} />
         </Suspense>
-    </AppProvider>
+      </AppProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );

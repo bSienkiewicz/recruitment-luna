@@ -47,6 +47,8 @@ const LineChart = ({
   showRealTime,
   showSafeZone,
 }: LineChartProps) => {
+
+  
   // Format ISO dates to human readable
   const formattedData =
     showRealTime && realTimeData

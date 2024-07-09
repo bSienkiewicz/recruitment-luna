@@ -1,11 +1,11 @@
 import {create} from "zustand";
-import { Module, ModuleHistoryItem } from "../types";
+import { ModuleType, ModuleHistoryItem } from "../types";
 
 interface ModuleStore {
-  modules: Module[];
-  setModules: (modules: Module[]) => void;
-  module: Module | undefined;
-  setModule: (module: Module | undefined) => void;
+  modules: ModuleType[];
+  setModules: (modules: ModuleType[]) => void;
+  module: ModuleType | undefined;
+  setModule: (module: ModuleType | undefined) => void;
   readings: ModuleHistoryItem[];
   setReadings: (readings: ModuleHistoryItem[]) => void;
 }

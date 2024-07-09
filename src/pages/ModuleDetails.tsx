@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  faChevronLeft,
-  faEdit,
-} from "@fortawesome/free-solid-svg-icons";
+import { Link, useParams } from "react-router-dom";
+import { faChevronLeft, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Header from "../layout/Header";
 import useTemperatureStore from "../store/temperatures";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,9 +8,10 @@ import Spinner from "../components/ui/Spinner";
 import SectionModuleGauge from "../components/SectionModuleGauge";
 import SectionModuleChart from "../components/SectionModuleChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ModuleModal from "../components/ui/ModuleModal";
+import ModuleModal from "../components/ModuleModal";
 import { useModule } from "../hooks/useFetch";
 import ErrorDisplay from "../components/ErrorDisplay";
+import SEO from "../components/SEO";
 
 const ModuleDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,12 +21,11 @@ const ModuleDetails = () => {
     fetchModule,
     patchModule,
     isLoading,
-    error
+    error,
   } = useModule(id);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [recentTemperature, setRecentTemperature] = useState<number>(0);
+  const [recentTemperature, setRecentTemperature] = useState<number | null>(null);
   const recentReadings = useTemperatureStore((state) => state.recentReadings);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!module) return;
@@ -50,13 +47,15 @@ const ModuleDetails = () => {
     return <ErrorDisplay error={error} />;
   }
 
-  if (!module || !id) {
-    return <ErrorDisplay error="No module data available" />;
-  }
-
   if (module && id) {
     return (
       <div className="flex flex-col h-full">
+        <SEO
+          title={`${module.available ? recentTemperature + "ºC -" : ""} ${
+            module.name
+          } | hydroponIQ.`}
+          description={`Dashboard for '${module.name}' module - hydroponIQ.`}
+        />
         <ModuleModal
           showModal={showModal}
           onSubmit={patchModule}
@@ -64,7 +63,7 @@ const ModuleDetails = () => {
           icon={faEdit}
           isEditMode={true}
           initialData={module}
-          />
+        />
         <div className="">
           <Header
             title={module?.name ?? ""}
@@ -85,18 +84,16 @@ const ModuleDetails = () => {
             >
               {module?.available ? "Online" : "Offline"}
             </div>
-            <button
+            <Link
+              to="/"
               className="cursor-pointer px-4 py-1 rounded-full text-xs border border-lighter_dark"
-              onClick={() => {
-                navigate("/");
-              }}
             >
               <FontAwesomeIcon
                 icon={faChevronLeft}
                 className="cursor-pointer mr-2"
               />{" "}
               Back to modules
-            </button>
+            </Link>
           </div>
           <p className="text-sm mt-4 text-gray-400 line-clamp-2 mb-5">
             {module?.description}
