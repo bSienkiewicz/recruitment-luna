@@ -12,14 +12,15 @@ A web application for managing the status of modules in a hydroponics system, ru
   - Historical data __graph__ of system readings
   - Ability to __edit__ module details
 - __Search__ for modules by their name
-- __Responsive design__ for mobile and desktop
+- __Responsive design__ for mobile, desktop and tablets.
+- State managed by [__Zustand__](https://zustand-demo.pmnd.rs/)
 
 ## Technologies
 Project is created with:
 - __React__ version: 18.3, bootstrapped with Vite 5.3
 - __Node.js__ version: 20.12
 - __Tailwind CSS__ version: 3.4
-- __TypeScript__ version: 5.2
+- __TypeScript__ version: 5.2.2
 
 ## Dependencies
 Node.js (built with v20.12) and running backend API server provided for the recruitment task.
