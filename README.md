@@ -1,7 +1,7 @@
 # hydroponIQ.
 
 ## Overview
-A web application for managing the status of modules in a hydroponics system, running on randomly generated data provided as part of a recruitment task.
+A front-end web application for managing the status of modules in a hydroponics system, utilizing a backend that serves randomly generated module data. Backend was provided as part of a recruitment task.
 
 ## Features
 - __Overview__ of all modules in the system (`/`)
