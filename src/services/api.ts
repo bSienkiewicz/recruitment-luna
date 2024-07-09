@@ -1,6 +1,6 @@
 import { ModuleType } from "../types";
 
-const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3001';
 
 
 export const api = {
