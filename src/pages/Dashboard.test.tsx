@@ -3,10 +3,11 @@ import { describe, it, expect, vi } from 'vitest';
 import Dashboard from "./Dashboard";
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
+import { PropsWithChildren } from "react";
 
 vi.mock('react-helmet-async', () => ({
-  Helmet: ({ children }: any) => children,
-  HelmetProvider: ({ children }: any) => children,
+  Helmet: ({ children }: PropsWithChildren) => children,
+  HelmetProvider: ({ children }: PropsWithChildren) => children,
 }));
 
 describe("Dashboard", () => {
