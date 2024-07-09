@@ -1,20 +1,18 @@
-import React from "react";
 import DatePickerField from "./ui/DatePickerField";
 
 interface DatePickerContainerProps {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleDateChange: (start: Date | null, end: Date | null) => void;
+  handleRangeModeChange: (rangeMode: "hourly" | "daily") => void;
   chartDateRange: {
     start: Date;
     end: Date;
   };
 }
 
-const DatePickerContainer = ({ handleSubmit, handleDateChange, chartDateRange }: DatePickerContainerProps) => {
+const DatePickerContainer = ({ handleDateChange, handleRangeModeChange, chartDateRange }: DatePickerContainerProps) => {
   return (
     <form
       className="grid grid-cols-1 lg:grid-cols-4 gap-3"
-      onSubmit={handleSubmit}
     >
       <DatePickerField
         label="Start date:"
@@ -31,6 +29,7 @@ const DatePickerContainer = ({ handleSubmit, handleDateChange, chartDateRange }:
       <select
         className="self-end px-4 py-2 text-xs bg-transparent border border-lighter_dark rounded-md"
         name="range_mode"
+        onChange={(e) => handleRangeModeChange(e.target.value as "hourly" | "daily")}
       >
         <option value="hourly" className="bg-dark">
           Hourly
@@ -39,12 +38,6 @@ const DatePickerContainer = ({ handleSubmit, handleDateChange, chartDateRange }:
           Daily
         </option>
       </select>
-      <button
-        className="button-black px-4 py-2 font-semibold text-xs self-end"
-        type="submit"
-      >
-        Show
-      </button>
     </form>
   );
 };

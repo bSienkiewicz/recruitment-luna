@@ -27,6 +27,7 @@ const SectionModuleChart: React.FC<SectionModuleChartProps> = ({
     start: new Date(Date.now() - 24 * 60 * 60 * 1000),
     end: new Date(),
   });
+  const [rangeMode, setRangeMode] = useState<"hourly" | "daily">("hourly");
   const { readings, fetchHistoricalReadings } = useModuleHistory(id);
   const [realtimeReadings, setRealtimeReadings] = useState<ModuleHistoryItem[]>(
     []
@@ -38,33 +39,30 @@ const SectionModuleChart: React.FC<SectionModuleChartProps> = ({
     /**
      * Fetch historical readings when the component mounts
      */
-
     fetchHistoricalReadings(
       chartDateRange.start.toISOString(),
       chartDateRange.end.toISOString(),
       "hourly"
     );
-  }, [fetchHistoricalReadings, chartDateRange]);
-
+  }, [fetchHistoricalReadings, chartDateRange, rangeMode]);
 
   useEffect(() => {
     /**
      * Update the realtime readings array when the recent temperature changes
      */
     if (recentTemperature !== null) {
-        setRealtimeReadings((prev) => {
-          const updatedReadings = [
-            ...prev,
-            { timestamp: new Date().toISOString(), temperature: recentTemperature },
-          ];
-          return updatedReadings.slice(-40);
-        })
+      setRealtimeReadings((prev) => {
+        const updatedReadings = [
+          ...prev,
+          {
+            timestamp: new Date().toISOString(),
+            temperature: recentTemperature,
+          },
+        ];
+        return updatedReadings.slice(-40);
+      });
     }
   }, [recentTemperature]);
-
-  useEffect(() => {
-    console.log(realtimeReadings)
-  }, [realtimeReadings])
 
   const handleDateChange = (start: Date | null, end: Date | null) => {
     if (!start || !end) return;
@@ -75,25 +73,16 @@ const SectionModuleChart: React.FC<SectionModuleChartProps> = ({
     setChartDateRange({ start, end });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const rangeMode = (
-      form.elements.namedItem("range_mode") as HTMLSelectElement
-    ).value;
-    fetchHistoricalReadings(
-      chartDateRange.start.toISOString(),
-      chartDateRange.end.toISOString(),
-      rangeMode
-    );
+  const handleRangeModeChange = (rangeMode: string) => {
+    setRangeMode(rangeMode as "hourly" | "daily");
     setShowRealtime(false);
   };
 
   return (
     <>
-      <div className="section_dark col-span-6 p-5 rounded-md animate-fade-in opacity-0" style={{animationDelay: "100ms"}}>
+      <div className="section_dark col-span-6 p-5 rounded-md">
         <DatePickerContainer
-          handleSubmit={handleSubmit}
+          handleRangeModeChange={handleRangeModeChange}
           handleDateChange={handleDateChange}
           chartDateRange={chartDateRange}
         />

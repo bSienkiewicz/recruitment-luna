@@ -102,7 +102,6 @@ export const useModules = () => {
 
 export const useModuleHistory = (id?: string) => {
   const [readings, setReadings] = useState<ModuleHistoryItem[]>([]);
-
   const fetchHistoricalReadings = useCallback(
     async (start: string, stop: string, mode: string) => {
       if (!id) return;
@@ -113,13 +112,18 @@ export const useModuleHistory = (id?: string) => {
           stop,
           mode
         );
-        setReadings(data);
+        if (data.length > 100) {
+          // Keep only the first 100 items
+          setReadings(data.slice(-300));
+          toast.error("Too many readings to display. Showing the last 300.");
+        } else {
+          setReadings(data);
+        }
       } catch (error) {
         console.error("Error fetching module readings:", error);
       }
     },
     [id]
   );
-
   return { readings, fetchHistoricalReadings };
 };
